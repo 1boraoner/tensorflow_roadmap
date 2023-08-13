@@ -22,10 +22,8 @@ output = Dense(units=2, activation='sigmoid')(dense_1)
 
 func_model = Model(inputs= input_layer, outputs=output)
 
-func_model.compile(  optimizer=SGD(learning_rate = 0.0001,),
-                    loss = BinaryCrossentropy(from_logits=False), 
-                    metrics=[AUC(),
-                             Accuracy()]
-                )
-
-func_model.summary()
+# func_model.compile(  optimizer=SGD(learning_rate = 0.0001,),
+#                     loss = BinaryCrossentropy(from_logits=False), 
+#                     metrics=[AUC(),
+#                              Accuracy()]
+#                 )
