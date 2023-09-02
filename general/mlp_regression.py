@@ -16,8 +16,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics import confusion_matrix
-
+from sklearn.metrics import accuracy_score, auc, confusion_matrix
 
 data = pd.read_csv("../datasets/weather_prediction/seattle-weather.csv")
 data, raw_label = data.iloc[:, :-1], data.iloc[:, -1]
@@ -77,7 +76,11 @@ model.compile(optimizer = SGD(learning_rate = 1.e-3),
 model.fit(x=X_train, y=y_train, epochs=100, verbose=True)
 
 preds = model.predict(X_test)
-preds = tf.argmax(preds, axis=-1)
+preds = tf.argmax(preds, axis=-1).numpy()
 
-conf_mat = confusion_matrix(np.argmax(y_test, axis=-1), preds.numpy())
+y_true = np.argmax(y_test, axis=-1)
+conf_mat = confusion_matrix(y_true, preds)
+acc = accuracy_score(y_true, preds)
+
 print(conf_mat)
+print(f"Test Accuracy: {acc}")
