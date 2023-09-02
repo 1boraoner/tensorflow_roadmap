@@ -1,0 +1,27 @@
+Popular optimizers
+
+1 - Momentum Optimization
+
+    "Imagine a bowling ball rolling down a gentle slope on a smooth surface: it will start
+    out slowly, but it will quickly pick up momentum until it eventually reaches terminal
+    velocity "
+
+    optimizer = keras.optimizers.SGD(lr=0.001, momentum=0.9) # SGD with momentum 
+
+
+    drawback: Adding another hyperparameter to tune...
+
+
+2 - Nesterov Accelerated Gradient
+
+    "measure the gradient of the cost function not at the local position but slightly ahead in the direction
+    of the momentum"
+
+    optimizer = keras.optimizers.SGD(lr=0.001, momentum=0.9, nesterov=True)
+    
+
+3- AdaGrad
+
+4- RMSProp
+
+5 - Adam

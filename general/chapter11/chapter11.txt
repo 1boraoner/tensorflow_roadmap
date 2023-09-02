@@ -1,0 +1,107 @@
+Vanishing and Exploding Gradient Problems
+
+1 - Vanishing Gradient Problem: Deep Neural Networklerde lower level parametrelere gelen gradient in cok kuculmesi ve 
+        modelin o parameterelerinin hic degismemesi sonucu iyi training olmamasi durumu
+
+    Butun parametrelerin gradienti output a gore hesaplandigi ve chain rule dan dolayi her parametrenin gradienti carpilarak
+    gittigi icin lower level da kalan parametreler cok assagi da kaliyor cok derin modellerde
+
+2 - Exploding Gradient Problem :  ayni sekilde derivativin cok buyumesi sonucu modelin iyi egitilememesi
+
+
+Bunun Cozumlerinden biri weight initialization:
+
+    - matematiksel olarak aciklamasi var fakat ana mantik su: input'larin variance i ile outputtun variance i arasinda cok fark olmamasi isteniyor.
+
+        yani butun katmandaki weightlerin ilk initialize ederken benzer variance larda olmasi onemli 
+
+        "the authors argue that we need the variance of the
+        outputs of each layer to be equal to the variance of its inputs,2 and we also need the
+        gradients to have equal variance before and after flowing through a layer in the
+        reverse direction"
+
+        fan-in : giris layerdaki neuron sayisi
+        fan-out: cikis layerdaki neuron sayisi
+
+        Xavier Initialaztion: Bu bir weightleri nasil initialize ediceginin strategy si
+        strateji basit.
+        
+        Weightleri Normal(0, sigma**2) olarak initialize etmek. sigma**2 = 1/fan_avg olacak sekilde.
+
+        fan_avg = (fan-in + fan-out) / 2
+
+        BU HEM TEORIDE HEMDE PRATIKTE KANITLANMIS IYI BIR YAKLASIM
+
+        Bu yaklasim ayni zamanda training i cok hizlandiriyor cunku faster converge olacak butun weightlerin variance i benzer ise
+
+
+        Bunun yani sira activation functionlara gore initalization tipi de degismesi iyi olabilir
+        Sayfa 328 TABLO 11.1
+
+
+Birdiger olay da Secilen Activation Functionin Saturation durumudur
+
+Sigmoid cok buyuk sayilarda 1 e saturate ederken cok kucuk sayilarda 0 a saturate eder
+Bunu onlemek icin saturate etmeyen bir activation function kullanilmali : ReLU
+
+ReLU pozitif sayilarda saturate etmiyor fakat bir problem "dying ReLU" bu da hep sifir verme olayi bunu onlemek icin : LeakyReLU
+
+LeakyReLU genelde alpha = 0.001 olarak kullaniliyor
+
++ 
+
+ELU : Exponential Linear Unit bu ReLU dan dah iyi ve daha hizli denmis >???
+
+    "The main drawback of the ELU activation function is that it is slower to compute
+    than the ReLU and its variants"
+
+
+SELU : Scaled version of ELU /// Self Normalizing ELU 
+the output of each layer will tend to preserver mean 0 and standard deviation 1 
+
+which solves the vanishing/exploding gradient problem
+
+AMA bunun calismasi icin gerekli kurallar var : 
+    1 - input features must be standardized (0-1 arasina)
+    2 - every layer's weight must be initiazlied with LeChun normaliztion
+    3 - network must be sequential yani RNN li veya Skip Connection li NN lerde iyi calismaz
+    
+
+UZUN LAFIN KISASI : SELU > ELU > leaky ReLU (and its variants) > ReLU > tanh > sigmoid
+
+
+
+BATCH NORMALIZATION
+
+Batch Normazlition bir mini-batch in istatistigine haraket eder ama ince detaylar var....
+
+simdi bir batch sayisi kuculdukce aslinda instancelarin IID property si gidiyor bunu biliyoruz bu yuzden "moving average" kullaniliyor
+
+Kisacasi Batch Normalization da 4 parametre ogrenlilr :
+    Gamma: output scaling factor
+    Beta : output offset vector
+
+    mean and sigma da the final input vector are estimated with moving averages
+
+
+Advantages:
+    - speeds up training
+    - BN sayesinde gradient problmleri yok ve satureating activation functionlar kullanilabiliyor
+    - weight initialization da onemi cok kalmiyor 
+    - regularizer gibi de davraniyor
+
+Batch Normalization bazen activation functiondan once kullanmak iyi ama sonrada kullanmayi denemek lazim
+
+
+Gradient Clipping:
+
+Bu da buyuk gradient olmasin diye clipleme olayi
+RNN lerde BN cok kullanilamiyor diye kullanilabiliyor
+
+optimizer = keras.optimizers.SGD(clipvalue=1.0)
+
+bu cok iyi degil ama clipnorm cok daha iyi 
+normalize halini clipliyor, clipnorm=1.0
+
+[0.9, 100.0] -> [0.9, 1.0] yapacakken [0.00899964, 0.9999595] buna donusturur
+
