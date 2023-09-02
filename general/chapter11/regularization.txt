@@ -1,0 +1,31 @@
+Early Stopping 
+BatchNormalization
+L1 ve L2 Regularization
+Dropout
+Max-Norm Regularization
+
+
+1 - L1 ve L2 Regularization
+
+    layer = keras.layers.Dense(100, activation="elu",
+        kernel_initializer="he_normal",
+        kernel_regularizer=keras.regularizers.l2(0.01))
+                            
+2 - DropOut
+
+    Another way to understand the power of dropout is to realize that a unique neural
+    network is generated at each training step. Since each neuron can be either present or
+    absent, there is a total of 2N possible networks
+
+3 - Monte Carlo DropOut 
+
+    Training sirasinda Dropout ile egitilmis bir model var ise 
+    teset set evaluation kismini Dropout layerlari calisir sekilde acip evaluate ediyosun bunu N kere yapip sonuclarin mean ini aliyosun 
+
+
+4 - Max-Norm Regularization
+
+    bir neurona bagli olan W lari sinirlamak aslinda
+
+    ||W|| <= __r__ where r is the max norm hyperparameter
+    
