@@ -26,7 +26,7 @@ def model_def(params):
 
 space = {
     "input_shape": X_train.shape[-1],
-    "dnn_units": hp.choice("dnn_units", [10, 20, 30]),
+    "dnn_units": hp.choice("dnn_units", list(range(32, 256, 32))),
     "learning_rate": hp.choice("learning_rate", [0.001, 0.0001]),
     "hidden_layers": hp.choice("hidden_layers", [1, 2, 3, 4])
 }
