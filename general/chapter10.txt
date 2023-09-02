@@ -1,0 +1,55 @@
+
+multiple inputs and outpus from a model
+
+1 - multiple inputs
+
+def model_functional_API(input_shape1, input_shape2):
+    input_A = keras.layers.Input(input_shape1, name="A")
+    input_B = keras.layers.Input(input_shape1, name="B")
+    ....
+    return Model(inputs=[input_A, input_B], outputs=outpus)
+
+incelikler:
+    fit fonksyonunda her iki input icin ayrica verilmesli (split edilmeli featurlar)
+    evaluate fonksyonunda
+    prediction fonksyonunda ayni sekilde
+
+    model.fit(x=[X_feat4, X_feat5], y=Y_train,
+              validation_set=((X_valid_A, X_valid_B), y_val), epochs= 10, verbose=1)
+
+    model.evaluate(x=(X_test_A, X_test_B), y= y_test)
+    model.predict((X_new_A, X_new_B))
+
+
+Multiple Output Daha FARKLI
+
+
+def model_functional_API(input_shape):
+    input = keras.layers.Input(input_shape)
+    ....
+    output = keras.layers.Dense(10, name= "main_output")(xxx)
+    auxiliary_output = keras.layer.Dense(1, name="auxilary_output")(yyy)
+    return keras.Model(inputs=input, outputs=[output, auxiliary_output])
+
+1 - Multiple outut verildigi icin her output icin AYRI LOSS FONKSYONU tanimlanmali
+2 - Her loss fonksoynunun weighti de olmali LOSS FUISION
+
+model.compile(optimizer=keras.optimizers.SGD(),
+              loss = [keras.losses.sparse_categorical_crossentropy, keras.losses.mean_squarred_error],
+              loss_weights = [0.9, 0.1])
+
+              LOSS = 0.9 * L1 + 0.1 * L2 oldu yani
+
+
+model.fit tarafinda da degisiklik laizm, evaluate icin de gecerli
+her output icin ayni bir output da verilmeli (tabii ayni sey de olabilir )
+
+orn: model.fit([X_train_A, X_train_B], [y_train, y_train]
+
+ornegin object detection yapiliyor olsaydi
+
+4 tane output olacak iki tanesi objenin pozisyonu digeri de bounding box width and height olacakti
+bu yuzden 4 tane output cikartip 4 tane y_x, y_y, y_h, y_w gibi tru labellari vermemiz gerekirid
+
+
+
