@@ -12,8 +12,9 @@ def model_def(params):
         for i in range(hidden_layers):
             if i == 0:
                 dnn_in = keras.layers.Dense(units=dnn_units, activation='relu')(input_)
-            dnn_out = keras.layers.Dense(units=dnn_units,activation='relu')(dnn_in)
-        output = keras.layers.Dense(units=1)(dnn_out)
+                continue
+            dnn_in = keras.layers.Dense(units=dnn_units,activation='relu')(dnn_in)
+        output = keras.layers.Dense(units=1)(dnn_in)
         return keras.Model(inputs=input_, outputs=output)
 
     model = simple_mlp(input_shape=params['input_shape'], dnn_units=params['dnn_units'], hidden_layers=params["hidden_layers"])
