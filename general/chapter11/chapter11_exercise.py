@@ -38,7 +38,7 @@ X_test_04, y_test_04 = X_test[mask_test], keras.utils.to_categorical(y_test[mask
 
 #regular training only with classes 0 and 4 
 model = DNN(input_shape = X_train_04.shape[1:], use_bn=False)
-model.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.001),
+model.compile(optimizer = keras.optimizers.legacy.Adam(learning_rate = 0.001),
               loss = keras.losses.CategoricalCrossentropy(from_logits=False),
               metrics = [keras.metrics.Precision(name="precision_dnn"), 
                          keras.metrics.AUC(name="auc_dnn")])
@@ -56,7 +56,7 @@ history = model.fit(X_train_04, y_train_04, validation_split = 0.15, epochs=100,
 
 
 model_bn = DNN(input_shape = X_train_04.shape[1:], use_bn=True)
-model_bn.compile(optimizer = keras.optimizers.Adam(learning_rate = 0.001),
+model_bn.compile(optimizer = keras.optimizers.legacy.Adam(learning_rate = 0.001),
               loss = keras.losses.CategoricalCrossentropy(from_logits=False),
               metrics = [keras.metrics.Precision(name="precision_bn"), 
                          keras.metrics.AUC(name = "auc_bn")])

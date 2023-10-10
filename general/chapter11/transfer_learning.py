@@ -5,7 +5,7 @@ from tensorflow import keras
 
 
 # burda A ile B nin ayni weightler oldugu icin B de yaptigin degisiklikler A yi da etkiler!!!
-model_A = keras.model.load_model("my_model_A.h5")
+model_A = keras.models.load_model("my_model_A.h5")
 model_B_on_A = keras.models.Sequential(model_A.layers[:-1])
 model_B_on_A.add(keras.layers.Dense(1, activation='sigmoid'))
 
