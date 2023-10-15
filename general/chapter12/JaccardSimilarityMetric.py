@@ -6,8 +6,8 @@
 
 import tensorflow as tf
 import tensorflow.keras as keras
-class JaccardSimilarity(keras.metrics.Metric):
 
+class JaccardSimilarity(keras.metrics.Metric):
     def __init__(self, name="JaccardSimilarity", **kwargs):
         super(JaccardSimilarity, self).__init__(name=name, **kwargs)
         self.scores = self.add_weight(name='jaccard_scores', initializer="zeros")
