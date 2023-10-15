@@ -1,5 +1,3 @@
-@bora.oner
-
 """
     Jaccard Similarity Metric Tensorflow Implementation 
 """
